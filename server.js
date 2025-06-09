@@ -3,14 +3,12 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
-const app = express(); // Certifique-se de que app é definido aqui.
+const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Conectar ao MongoDB usando Mongoose
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
@@ -21,14 +19,16 @@ mongoose
     console.error("Erro ao conectar ao MongoDB:", err.message);
   });
 
-// Definir o esquema e o modelo
 const visitSchema = new mongoose.Schema({
   count: { type: Number, default: 0 },
 });
 
 const Visit = mongoose.model("Visit", visitSchema);
 
-// Rota para registrar e retornar o contador de visitas
+app.get("/", (req, res) => {
+  res.send("Servidor backend rodando!");
+});
+
 app.get("/contador", async (req, res) => {
   try {
     let visit = await Visit.findOne();
@@ -47,7 +47,6 @@ app.get("/contador", async (req, res) => {
   }
 });
 
-// Iniciar o servidor
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
