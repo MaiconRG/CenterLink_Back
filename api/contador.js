@@ -16,6 +16,17 @@ async function connectDB() {
 }
 
 export default async function handler(req, res) {
+  // Adicione os cabeçalhos de CORS
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // Responde rapidamente a requisições OPTIONS (pré-flight)
+  if (req.method === "OPTIONS") {
+    res.status(200).end();
+    return;
+  }
+
   await connectDB();
 
   if (req.method === "GET") {
