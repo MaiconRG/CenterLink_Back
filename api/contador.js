@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import fetch from "node-fetch"; // Certifique-se de instalar: npm install node-fetch
+const fetch = require("node-fetch");
 
 const MONGO_URI = process.env.MONGO_URI;
 
@@ -42,8 +42,9 @@ async function getLocation(ip) {
         lon: data.lon,
       };
     }
+    console.error("Falha ao obter localização:", data);
   } catch (e) {
-    // Ignora erros de localização
+    console.error("Erro no fetch de localização:", e);
   }
   return {};
 }
