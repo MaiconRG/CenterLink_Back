@@ -92,6 +92,7 @@ export default async function handler(req, res) {
         visits: visit.visits,
       });
     } catch (err) {
+      console.error("Erro no handler:", err); // <-- Adicione este log
       res
         .status(500)
         .json({ error: "Erro interno no servidor", details: err.message });
